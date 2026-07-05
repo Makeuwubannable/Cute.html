@@ -722,6 +722,7 @@
     let seekFound = false;
     let proposalAsked = false;
     let proposalAccepted = false;
+    let remainingGames = ['babi', 'seek', 'quiz'];
 
     const quizQuestions = [
       {
@@ -960,10 +961,16 @@
     }
 
     function triggerRandomSpecialGame() {
-      const roll = Math.floor(Math.random() * 3);
-      if (roll === 0) {
+      if (remainingGames.length === 0) {
+        remainingGames = ['babi', 'seek', 'quiz'];
+      }
+
+      const index = Math.floor(Math.random() * remainingGames.length);
+      const game = remainingGames.splice(index, 1)[0];
+
+      if (game === 'babi') {
         startBabiGame();
-      } else if (roll === 1) {
+      } else if (game === 'seek') {
         openSeekGame();
       } else {
         openQuizGame();
