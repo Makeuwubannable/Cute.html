@@ -601,6 +601,8 @@
     let messageIndex = 0;
 
     let seekFound = false;
+    let proposalAsked = false;
+    let proposalAccepted = false;
 
     function launchConfetti() {
       const colors = ['#ff4d8d', '#ffd166', '#8ecae6', '#a0e7e5', '#cdb4db', '#ff9f1c', '#f72585'];
@@ -618,6 +620,23 @@
         document.body.appendChild(piece);
         setTimeout(() => piece.remove(), 6000);
       }
+    }
+
+    function startMarriageQuestion() {
+      proposalAsked = true;
+      message.textContent = 'Correct 💖 Now for the important question...';
+      award.classList.add('show');
+      award.querySelector('h2').textContent = 'New Question';
+      award.querySelector('p').textContent = 'Will you marry me? 💍';
+      document.querySelector('h1').textContent = 'Will you marry me?';
+      document.querySelector('.card > p').textContent = 'You already said yes to being the cutest girl in the world.';
+      yesBtn.textContent = 'Yes';
+      noBtn.textContent = 'No';
+      yesBtn.disabled = false;
+      noBtn.disabled = false;
+      noBtn.style.opacity = '1';
+      noBtn.style.cursor = 'pointer';
+      launchConfetti();
     }
 
     function hideSpecialGames() {
@@ -746,14 +765,24 @@
     }
 
     yesBtn.addEventListener('click', () => {
-      message.textContent = 'You are 100% correct 💖';
-      award.classList.add('show');
-      launchConfetti();
-      yesBtn.disabled = true;
-      noBtn.disabled = true;
-      noBtn.style.opacity = '0.65';
-      noBtn.style.cursor = 'not-allowed';
-      yesBtn.textContent = 'Obviously yes';
+      if (!proposalAsked) {
+        startMarriageQuestion();
+        return;
+      }
+
+      if (!proposalAccepted) {
+        proposalAccepted = true;
+        message.textContent = 'She said yes 💖💍';
+        award.classList.add('show');
+        award.querySelector('h2').textContent = 'Engagement Mode';
+        award.querySelector('p').textContent = 'Forever starts now ✨';
+        yesBtn.disabled = true;
+        noBtn.disabled = true;
+        noBtn.style.opacity = '0.65';
+        noBtn.style.cursor = 'not-allowed';
+        yesBtn.textContent = 'Our forever';
+        launchConfetti();
+      }
     });
 
     noBtn.addEventListener('click', () => {
